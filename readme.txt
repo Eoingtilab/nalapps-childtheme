@@ -4,7 +4,7 @@ Tags: child theme, theme, developer tools, lightweight
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,7 @@ Features:
 * One-click child theme creation
 * Automatic child theme activation
 * Parent screenshot copy when available
+* Avoids duplicate child stylesheet loading
 * No settings
 * No ads
 * No tracking
@@ -52,6 +53,13 @@ The plugin displays a message and does not create another theme.
 No. It does not collect or transmit any data.
 
 == Changelog ==
+
+= 1.0.1 =
+
+* Prevented duplicate stylesheet loading on themes such as GeneratePress.
+* Improved compatibility with custom theme roots.
+* Added a direct action link on the Plugins screen.
+* Added the NalApps product update URI.
 
 = 1.0.0 =
 
