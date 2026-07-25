@@ -1,0 +1,12 @@
+{
+  "product_id": "nalapps-childtheme",
+  "title": "NalApps Child Theme",
+  "version": "1.0.3",
+  "tag": "v1.0.3",
+  "asset": "nalapps-childtheme-1.0.3.zip",
+  "payload": "release/nalapps-childtheme-1.0.3.b64",
+  "plugin_folder": "nalapps-childtheme",
+  "main_file": "nalapps-childtheme.php",
+  "sha256": "35a4628538671b32968117cc92423c9840fe23df2fc685fbb4979efd716426a5",
+  "notes": "NalApps Child Theme 1.0.3\n\n- Updated Plugin URI, Author URI and generated child-theme author links to app.nal.la.\n- Redirects administrators to the child-theme creator screen after activation.\n- Adds writable-directory validation and complete file-write verification.\n- Prevents duplicate child stylesheet loading."
+}
