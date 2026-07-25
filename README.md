@@ -5,9 +5,11 @@ A tiny, settings-free WordPress plugin that creates and activates a child theme 
 ## Features
 
 - One-click child theme creation
-- Automatic activation
+- Automatic activation after confirmation
+- Redirects to the creator screen after plugin activation
 - Copies the parent theme screenshot when available
 - Avoids duplicate child stylesheet loading
+- Clear file-permission error messages
 - No settings
 - No ads
 - No tracking
@@ -16,8 +18,10 @@ A tiny, settings-free WordPress plugin that creates and activates a child theme 
 ## Usage
 
 1. Install and activate the plugin.
-2. Open **Appearance → Create Child Theme**.
+2. Review the active parent theme on the creator screen.
 3. Click **Create and Activate Child Theme**.
+
+Activation alone does not create a child theme. The theme is created only after the administrator clicks the button.
 
 ## Requirements
 
@@ -32,9 +36,9 @@ A tiny, settings-free WordPress plugin that creates and activates a child theme 
 
 ## Current release
 
-- Version: `1.0.1`
-- Release tag: `wp-childtheme-v1.0.1`
-- Package: `nalapps-childtheme-1.0.1.zip`
+- Version: `1.0.2`
+- Release tag: `wp-childtheme-v1.0.2`
+- Package: `nalapps-childtheme-1.0.2.zip`
 
 ## License
 
