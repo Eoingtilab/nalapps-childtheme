@@ -30,14 +30,13 @@ Activation alone does not create a child theme. The theme is created only after 
 
 ## Distribution
 
-- Development source: `Eoingtilab/nalapps-childtheme`
-- Official packages: `Eoingtilab/nalapps-releases`
+- Source and official GitHub Releases: `Eoingtilab/nalapps-childtheme`
 - Product page: `https://app.nal.la/downloads/nalapps-child-theme/`
 
 ## Current release
 
 - Version: `1.0.3`
-- Release tag: `wp-childtheme-v1.0.3`
+- Release tag: `v1.0.3`
 - Package: `nalapps-childtheme-1.0.3.zip`
 
 ## License
