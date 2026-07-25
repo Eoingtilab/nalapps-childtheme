@@ -7,6 +7,7 @@ A tiny, settings-free WordPress plugin that creates and activates a child theme 
 - One-click child theme creation
 - Automatic activation
 - Copies the parent theme screenshot when available
+- Avoids duplicate child stylesheet loading
 - No settings
 - No ads
 - No tracking
@@ -23,13 +24,17 @@ A tiny, settings-free WordPress plugin that creates and activates a child theme 
 - WordPress 6.2 or later
 - PHP 7.4 or later
 
-## Development repository
+## Distribution
 
-This repository contains the source code for the plugin.
+- Development source: `Eoingtilab/nalapps-childtheme`
+- Official packages: `Eoingtilab/nalapps-releases`
+- Product page: `https://app.nal.la/downloads/nalapps-child-theme/`
 
-Official packaged releases are distributed through the separate NalApps releases repository:
+## Current release
 
-- `Eoingtilab/nalapps-releases`
+- Version: `1.0.1`
+- Release tag: `wp-childtheme-v1.0.1`
+- Package: `nalapps-childtheme-1.0.1.zip`
 
 ## License
 
