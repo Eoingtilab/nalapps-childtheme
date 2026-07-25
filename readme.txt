@@ -4,7 +4,7 @@ Tags: child theme, theme, developer tools, lightweight
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,11 @@ The plugin displays a message and does not create another theme.
 No. It does not collect or transmit any data.
 
 == Changelog ==
+
+= 1.0.3 =
+
+* Updated the plugin and author website links to app.nal.la.
+* Updated generated child theme author links to app.nal.la.
 
 = 1.0.2 =
 
