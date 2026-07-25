@@ -100,20 +100,23 @@ final class NalApps_Child_Theme {
 		$style_content = self::build_style_css( $theme, $parent_slug );
 		$functions     = self::build_functions_php();
 
-		if ( false === file_put_contents( $child_dir . '/style.css', $style_content ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+		if ( false === file_put_contents( $child_dir . '/style.css', $style_content, LOCK_EX ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 			self::cleanup_directory( $child_dir );
 			self::redirect_with_notice( 'write-failed' );
 		}
 
-		if ( false === file_put_contents( $child_dir . '/functions.php', $functions ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+		if ( false === file_put_contents( $child_dir . '/functions.php', $functions, LOCK_EX ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 			self::cleanup_directory( $child_dir );
 			self::redirect_with_notice( 'write-failed' );
 		}
 
 		self::copy_screenshot( $theme, $child_dir );
+		wp_clean_themes_cache();
 
 		$created_theme = wp_get_theme( $child_slug );
 		if ( $created_theme->errors() ) {
+			self::cleanup_directory( $child_dir );
+			wp_clean_themes_cache();
 			self::redirect_with_notice( 'invalid-theme' );
 		}
 
@@ -183,12 +186,13 @@ PHP;
 	}
 
 	private static function cleanup_directory( string $directory ): void {
-		foreach ( array( 'style.css', 'functions.php' ) as $filename ) {
+		foreach ( array( 'style.css', 'functions.php', 'screenshot.png', 'screenshot.jpg', 'screenshot.jpeg', 'screenshot.gif', 'screenshot.webp' ) as $filename ) {
 			$file = $directory . '/' . $filename;
 			if ( is_file( $file ) ) {
 				unlink( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 			}
 		}
+
 		if ( is_dir( $directory ) ) {
 			rmdir( $directory ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
 		}
