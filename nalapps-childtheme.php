@@ -3,11 +3,12 @@
  * Plugin Name:       NalApps Child Theme
  * Plugin URI:        https://github.com/Eoingtilab/nalapps-childtheme
  * Description:       Create and activate a child theme for the currently active WordPress theme with one click.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            NalApps
  * Author URI:        https://nal.la
+ * Update URI:        https://app.nal.la/downloads/nalapps-child-theme/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       nalapps-childtheme
@@ -26,6 +27,20 @@ final class NalApps_Child_Theme {
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_page' ) );
 		add_action( 'admin_post_' . self::ACTION, array( __CLASS__, 'handle_create' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'show_notice' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( __CLASS__, 'add_action_link' ) );
+	}
+
+	public static function add_action_link( array $links ): array {
+		if ( current_user_can( 'switch_themes' ) ) {
+			array_unshift(
+				$links,
+				'<a href="' . esc_url( admin_url( 'themes.php?page=' . self::PAGE_SLUG ) ) . '">' .
+				esc_html__( 'Create Child Theme', 'nalapps-childtheme' ) .
+				'</a>'
+			);
+		}
+
+		return $links;
 	}
 
 	public static function add_admin_page(): void {
@@ -89,9 +104,10 @@ final class NalApps_Child_Theme {
 			self::redirect_with_notice( 'already-child' );
 		}
 
-		$parent_slug = sanitize_key( $theme->get_stylesheet() );
-		$child_slug  = self::available_child_slug( $parent_slug );
-		$child_dir   = trailingslashit( get_theme_root() ) . $child_slug;
+		$parent_slug = $theme->get_stylesheet();
+		$theme_root  = get_theme_root( $parent_slug );
+		$child_slug  = self::available_child_slug( $parent_slug, $theme_root );
+		$child_dir   = trailingslashit( $theme_root ) . $child_slug;
 
 		if ( ! wp_mkdir_p( $child_dir ) ) {
 			self::redirect_with_notice( 'directory-failed' );
@@ -113,7 +129,7 @@ final class NalApps_Child_Theme {
 		self::copy_screenshot( $theme, $child_dir );
 		wp_clean_themes_cache();
 
-		$created_theme = wp_get_theme( $child_slug );
+		$created_theme = wp_get_theme( $child_slug, $theme_root );
 		if ( $created_theme->errors() ) {
 			self::cleanup_directory( $child_dir );
 			wp_clean_themes_cache();
@@ -124,12 +140,12 @@ final class NalApps_Child_Theme {
 		self::redirect_with_notice( 'success' );
 	}
 
-	private static function available_child_slug( string $parent_slug ): string {
-		$base_slug = $parent_slug . '-child';
+	private static function available_child_slug( string $parent_slug, string $theme_root ): string {
+		$base_slug = sanitize_key( $parent_slug ) . '-child';
 		$slug      = $base_slug;
 		$index     = 2;
 
-		while ( is_dir( trailingslashit( get_theme_root() ) . $slug ) ) {
+		while ( is_dir( trailingslashit( $theme_root ) . $slug ) ) {
 			$slug = $base_slug . '-' . $index;
 			++$index;
 		}
@@ -140,7 +156,7 @@ final class NalApps_Child_Theme {
 	private static function build_style_css( WP_Theme $theme, string $parent_slug ): string {
 		$name = sanitize_text_field( $theme->get( 'Name' ) );
 
-		return "/*\nTheme Name: {$name} Child\nTemplate: {$parent_slug}\nVersion: 1.0.0\nText Domain: {$parent_slug}-child\n*/\n";
+		return "/*\nTheme Name: {$name} Child\nDescription: Child theme for {$name}.\nAuthor: NalApps\nAuthor URI: https://nal.la\nTemplate: {$parent_slug}\nVersion: 1.0.0\nText Domain: " . sanitize_key( $parent_slug ) . "-child\n*/\n";
 	}
 
 	private static function build_functions_php(): string {
@@ -154,23 +170,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Load the child stylesheet only when the parent theme has not already loaded it.
+ */
 add_action(
 	'wp_enqueue_scripts',
 	static function (): void {
-		wp_enqueue_style(
-			'parent-style',
-			get_template_directory_uri() . '/style.css',
-			array(),
-			wp_get_theme( get_template() )->get( 'Version' )
-		);
+		$child_style_uri = get_stylesheet_uri();
+		$wp_styles       = wp_styles();
+
+		foreach ( $wp_styles->queue as $handle ) {
+			if ( ! isset( $wp_styles->registered[ $handle ] ) ) {
+				continue;
+			}
+
+			$source = $wp_styles->registered[ $handle ]->src;
+			if ( is_string( $source ) && strtok( $source, '?' ) === strtok( $child_style_uri, '?' ) ) {
+				return;
+			}
+		}
 
 		wp_enqueue_style(
-			'child-style',
-			get_stylesheet_uri(),
-			array( 'parent-style' ),
+			'nalapps-child-style',
+			$child_style_uri,
+			array(),
 			wp_get_theme()->get( 'Version' )
 		);
-	}
+	},
+	100
 );
 PHP;
 	}
