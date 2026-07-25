@@ -36,9 +36,9 @@ Activation alone does not create a child theme. The theme is created only after 
 
 ## Current release
 
-- Version: `1.0.2`
-- Release tag: `wp-childtheme-v1.0.2`
-- Package: `nalapps-childtheme-1.0.2.zip`
+- Version: `1.0.3`
+- Release tag: `wp-childtheme-v1.0.3`
+- Package: `nalapps-childtheme-1.0.3.zip`
 
 ## License
 
