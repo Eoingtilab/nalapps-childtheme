@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name:       NalApps Child Theme
- * Plugin URI:        https://github.com/Eoingtilab/nalapps-childtheme
+ * Plugin URI:        https://app.nal.la/downloads/nalapps-child-theme/
  * Description:       Create and activate a child theme for the currently active WordPress theme with one click.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            NalApps
- * Author URI:        https://nal.la
+ * Author URI:        https://app.nal.la/
  * Update URI:        https://app.nal.la/downloads/nalapps-child-theme/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class NalApps_Child_Theme {
-	private const VERSION            = '1.0.2';
+	private const VERSION            = '1.0.3';
 	private const PAGE_SLUG          = 'nalapps-childtheme';
 	private const ACTION             = 'nalapps_create_child_theme';
 	private const NONCE              = 'nalapps_childtheme_nonce';
@@ -200,7 +200,7 @@ final class NalApps_Child_Theme {
 	private static function build_style_css( WP_Theme $theme, string $parent_slug ): string {
 		$name = sanitize_text_field( $theme->get( 'Name' ) );
 
-		return "/*\nTheme Name: {$name} Child\nDescription: Child theme for {$name}.\nAuthor: NalApps\nAuthor URI: https://nal.la\nTemplate: {$parent_slug}\nVersion: 1.0.0\nText Domain: " . sanitize_key( $parent_slug ) . "-child\n*/\n";
+		return "/*\nTheme Name: {$name} Child\nDescription: Child theme for {$name}.\nAuthor: NalApps\nAuthor URI: https://app.nal.la/\nTemplate: {$parent_slug}\nVersion: 1.0.0\nText Domain: " . sanitize_key( $parent_slug ) . "-child\n*/\n";
 	}
 
 	private static function build_functions_php(): string {
